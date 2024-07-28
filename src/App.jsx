@@ -31,6 +31,13 @@ function App() {
     setTodo(''); // Clear the input field after submission
   };
 
+  const handleToggleComplete = (id) => {
+    setTobes(prevTobes => {
+      return prevTobes.map(tobe => tobe.id === id ? {...tobe, isComplete: !tobe.isComplete}: tobe)
+    })
+  }
+
+
   return (
     <main className="container mx-auto p-4">
       <h1 className="my-6 font-bold text-center text-gray-800 text-4xl">todos</h1>
@@ -53,7 +60,7 @@ function App() {
       {tobes.length === 0 ? (
         <p className="text-center text-gray-600">No tasks available</p>
       ) : (
-        <Tobe tobes={tobes}/>
+        <Tobe tobes={tobes} onToggleComplete={handleToggleComplete}/>
       )}
     </main>
   );
