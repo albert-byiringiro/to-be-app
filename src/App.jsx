@@ -3,12 +3,16 @@ import React, { useState } from 'react';
 import Tobe from "./components/Tobe"; // Ensure the correct path to Tobe component
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-
+import { nanoid } from 'nanoid';
 
 
 function App() {
   const [todo, setTodo] = useState("");
-  const [tobes, setTobes] = useState([]);
+  const [tobes, setTobes] = useState([{
+    id: nanoid(),
+    todo: "",
+    isComplete: false,
+  }]);
 
   const handleInput = (e) => {
     setTodo(e.target.value);
