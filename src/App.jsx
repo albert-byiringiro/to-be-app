@@ -37,6 +37,9 @@ function App() {
     })
   }
 
+  const handleDelete = (id) => {
+    setTobes(prevTobes => prevTobes.filter(tobe => tobe.id !== id))
+  }
 
   return (
     <main className="container mx-auto p-4">
@@ -60,7 +63,7 @@ function App() {
       {tobes.length === 0 ? (
         <p className="text-center text-gray-600">No tasks available</p>
       ) : (
-        <Tobe tobes={tobes} onToggleComplete={handleToggleComplete}/>
+        <Tobe tobes={tobes} onToggleComplete={handleToggleComplete} onDelete={handleDelete}/>
       )}
     </main>
   );
