@@ -6,7 +6,7 @@ const initialValue = () => {
     return savedTobes ? JSON.parse(savedTobes) : [];
 }
 
-const todoSlice = createSlice({
+const tobesSlice = createSlice({
     name: "tobes",
     initialState: initialValue(),
     reducers: {
@@ -21,6 +21,6 @@ const todoSlice = createSlice({
     }
 })
 
-export const { addTobe } = todoSlice.actions;
+export const { addTobe } = tobesSlice.actions;
 
-export default todoSlice.reducer;
+export default tobesSlice.reducer;
