@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Tobe from './components/Tobe';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -50,15 +50,6 @@ function App() {
   const handleDelete = (id) => {
     setTobes(prevTobes => prevTobes.filter(tobe => tobe.id !== id))
   }
-
-  /*
-    const handleUpdate = (id) => {
-    setTobes(prevTobes => {
-      return prevTobes.map(be => be.id === id ? {...be, tobe})
-    })
-  }
-  
-  */ 
 
 
   return (
