@@ -17,10 +17,17 @@ const tobesSlice = createSlice({
                 isComplete: false,
             };
             state.push(newTobe);
-        }
+        },
+        toggleComplete: (state, action) => {
+            const tobe = state.find(tobe => tobe.id === action.payload);
+            if (tobe) {
+                tobe.isComplete = !tobe.isComplete;
+            }
+        },
+        
     }
 })
 
-export const { addTobe } = tobesSlice.actions;
+export const { addTobe,toggleComplete } = tobesSlice.actions;
 
 export default tobesSlice.reducer;
