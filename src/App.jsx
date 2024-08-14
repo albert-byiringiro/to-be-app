@@ -2,19 +2,16 @@ import { useEffect, useState } from 'react';
 import Tobe from './components/Tobe';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { nanoid } from 'nanoid';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTobe } from './features/todoSlicer'; import "./features/todoSlicer";
 
 
 function App() {
 
   const [todo, setTodo] = useState("");
 
-  const [tobes, setTobes] = useState(
-    () => {
-      const saveTobes = localStorage.getItem('tobes');
-      return saveTobes ? JSON.parse(saveTobes) : [];
-    }
-  );
+  const tobes = useSelector((state) => state.tobes);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Save tobes to localStorage whenever it changes
@@ -29,14 +26,8 @@ function App() {
     e.preventDefault();
     
     if (todo.trim() === '') return; // Prevent adding empty todos
-    
-    const newTobe = {
-      id: nanoid(),
-      tobe: todo,
-      isComplete: false,
-    };
 
-    setTobes((prevTobes) => [...prevTobes, newTobe]);
+    dispatch(addTobe(todo))
 
     setTodo(''); // Clear the input field after submission
   };
