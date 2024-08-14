@@ -3,7 +3,7 @@ import Tobe from './components/Tobe';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTobe, toggleComplete } from './features/todoSlicer'; import "./features/todoSlicer";
+import { addTobe, deleteTobe, toggleComplete } from './features/todoSlicer'; import "./features/todoSlicer";
 
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
   }
 
   const handleDelete = (id) => {
-    setTobes(prevTobes => prevTobes.filter(tobe => tobe.id !== id))
+    dispatch(deleteTobe(id));
   }
 
 
