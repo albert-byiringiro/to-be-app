@@ -27,11 +27,19 @@ const tobesSlice = createSlice({
         
         deleteTobe: (state, action) => {
             return state.filter(tobe => tobe.id !== action.payload)
+        },
+
+        updateTobe: (state, action) => {
+            const { id, tobe } = action.payload;
+            const existingTobe = state.find(item => item.id === id);
+            if (existingTobe) {
+                existingTobe.tobe = tobe;
+            }
         }
         
     }
 })
 
-export const { addTobe,toggleComplete, deleteTobe } = tobesSlice.actions;
+export const { addTobe,toggleComplete, deleteTobe, updateTobe } = tobesSlice.actions;
 
 export default tobesSlice.reducer;
