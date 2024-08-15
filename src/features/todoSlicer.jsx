@@ -18,7 +18,7 @@ const todosSlice = createSlice({
             state.tobes.push(action.payload);
         },
         toggleComplete: (state, action) => {
-            const todo = state.find(tobe => tobe.id === action.payload);
+            const todo = state.tobes.find(tobe => tobe.id === action.payload);
             if (todo) {
                 todo.isComplete = !todo.isComplete;
             }
