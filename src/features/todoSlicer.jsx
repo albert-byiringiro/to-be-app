@@ -29,6 +29,19 @@ const todosSlice = createSlice({
             state.tobes = state.tobes.filter(tobe => tobe.id !== action.payload)
         },
         
+        
+        startEditing: (state, action) => {
+            state.editingId = action.payload;
+        },
+
+        saveTodo: (state, action) => {
+            const { id, newValue} = action.payload;
+            const todo = state.tobes.find(tobe => tobe.id === id);
+            if(todo){
+                todo.tobe = newValue;
+            }
+            state.editingId = null; // reset editing after saving
+        }
     }
 })
 
