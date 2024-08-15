@@ -1,9 +1,12 @@
+/* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckSquare, faSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useState } from "react";
+import { useTheme } from "../features/ThemeContext"
 
 export default function Tobe({ tobes, editingId, onToggleComplete, onDelete, onEdit, onSave }) {
     const [editValue, setEditValue] = useState("");
+    const theme = useTheme();
 
     const handleChange = (e) => {
         setEditValue(e.target.value);
@@ -14,7 +17,10 @@ export default function Tobe({ tobes, editingId, onToggleComplete, onDelete, onE
     return (
         <ul className="mx-8 space-y-4">
             {tobes.map((be) => (
-                <li key={be.id} className="relative flex py-2 items-center">
+                <li 
+                key={be.id} 
+                className={`flex justify-between items-center my-2 ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} p-2 rounded`}
+                >
                     {
                         editingId === be.id ? (
                             <>
@@ -24,11 +30,11 @@ export default function Tobe({ tobes, editingId, onToggleComplete, onDelete, onE
                                     onChange={handleChange}
                                     onBlur={() => onSave(be.id, editValue)}
                                     autoFocus
-                                    className="px-2 py-1 border border-gray-300 rounded"
+                                    className={`px-2 py-1 border rounded ${theme === 'dark' ? 'bg-gray-600 border-gray-500 text-white' : 'bg-white border-gray-300 text-gray-900'}`}
                                 />
                                 <button
                                     onClick={() => onSave(be.id, editValue)}
-                                    className="px-2 py-1 mx-1 bg-green-500 text-white rounded"
+                                    className={`px-2 py-1 mx-1 rounded ${theme === 'dark' ? 'bg-green-600 text-white' : 'bg-green-500 text-white'}`}
                                 >
                                     Save
                                 </button>
@@ -40,15 +46,19 @@ export default function Tobe({ tobes, editingId, onToggleComplete, onDelete, onE
                                     <FontAwesomeIcon className={`${be.isComplete ? "text-green-500" : "text-gray-200"}`} icon={be.isComplete ? faCheckSquare : faSquare} />
                                 </button>
                                 <span 
-                                    className={`mx-4 w-[85%] text-wrap ${be.isComplete ? 'line-through' : ''}`}
+                                    className={`cursor-pointer ${be.isComplete ? 'line-through' : ''}`}
                                     onClick={() => {
                                         onEdit(be.id);
-                                        setEditValue(be.tobe)
+                                        setEditValue(be.tobe);
                                     }}
                                 >{be.tobe}           
                                 </span>
-                                <button className="absolute right-0" onClick={() => onDelete(be.id)}>
-                                    <FontAwesomeIcon className="px-2 py-2 bg-gray-200 rounded-full" icon={faTrash} />
+                                <button 
+                                className="" 
+                                onClick={() => onDelete(be.id)}>
+                                    <FontAwesomeIcon 
+                                    className={`px-2 py-1 mx-1 rounded ${theme === 'dark' ? 'bg-red-600 text-white' : 'bg-red-500 text-white'}`} 
+                                    icon={faTrash} />
                                 </button>
                             </>
                         )

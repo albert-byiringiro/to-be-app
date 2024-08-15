@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import Tobe from './components/Tobe';
+import { useTheme } from "./features/ThemeContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTodo, deleteTodo, saveTodo, startEditing, toggleComplete } from './features/todoSlicer'; import "./features/todoSlicer";
 import { nanoid } from 'nanoid';
-
 
 function App() {
 
@@ -13,6 +13,7 @@ function App() {
   const tobes = useSelector((state) => state.todos.tobes);
   const editingId = useSelector(state => state.todos.editingId);
   const dispatch = useDispatch();
+  const { theme, toggleTheme } = useTheme();
 
   // useEffect(() => {
   //   // Save tobes to localStorage whenever it changes
@@ -26,8 +27,8 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (todo.trim() === '') return; // Prevent adding empty todos
-
+    if (todo.trim() === '') return; 
+    
     const newTodo = {
       id: nanoid(),
       tobe: todo,
@@ -56,14 +57,19 @@ function App() {
   }
 
   return (
-    <main className="container mx-auto p-4">
-      <h1 className="my-6 font-bold text-center text-gray-800 text-4xl">todos</h1>
+    <main className={`container max-h-screen mx-auto p-4 ${theme === "dark" ? "bg-gray-800 text-white": "bg-white text-gray-900"}`}>
+      <div className="flex justify-between items-center">
+        <h1 
+          className={`my-6 font-bold text-center text-4xl ${theme === "dark" ? "text-white" : "text-gray-800"}`}
+        >todos</h1>
+        <button onClick={toggleTheme} className={`px-4 py-2 rounded ${theme === "dark" ? "bg-gray-700 text-gray-100" : "bg-gray-300 text-gray-800"}`}>Toggle {theme === "dark" ? "Light" : "Dark"}</button>
+      </div>
       <form className="mx-8 my-6" onSubmit={handleSubmit}>
         <label htmlFor="tobe-input" className="relative flex items-center">
           <input
             type="text"
             id="tobe-input"
-            className="w-full px-4 py-2 text-gray-900 placeholder-gray-600 border-2 border-gray-300 rounded-full shadow-lg"
+            className={`w-full px-4 py-2 text-gray-900 placeholder-gray-600 border-2 border-gray-300 rounded-full shadow-lg ${theme === "dark" ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300 text-gray-900"}`}
             placeholder="Add tobe..."
             value={todo}
             onChange={handleInput}
@@ -74,7 +80,6 @@ function App() {
         </label>
       </form>
 
-      {/* Render the list of todos */}
       {tobes.length === 0 ? (
         <p className="text-center text-gray-600">No tasks available</p>
       ) : (
