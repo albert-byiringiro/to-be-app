@@ -3,7 +3,7 @@ import Tobe from './components/Tobe';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo, deleteTodo, toggleComplete } from './features/todoSlicer'; import "./features/todoSlicer";
+import { addTodo, deleteTodo, saveTodo, startEditing, toggleComplete } from './features/todoSlicer'; import "./features/todoSlicer";
 import { nanoid } from 'nanoid';
 
 
@@ -47,6 +47,14 @@ function App() {
     dispatch(deleteTodo(id));
   }
 
+  const handleEdit = (id) => {
+    dispatch(startEditing(id));
+  }
+
+  const handleSave = (id, newValue) => {
+    dispatch(saveTodo({ id, newValue }))
+  }
+
   return (
     <main className="container mx-auto p-4">
       <h1 className="my-6 font-bold text-center text-gray-800 text-4xl">todos</h1>
@@ -65,14 +73,18 @@ function App() {
           </button>
         </label>
       </form>
+
       {/* Render the list of todos */}
       {tobes.length === 0 ? (
         <p className="text-center text-gray-600">No tasks available</p>
       ) : (
         <Tobe 
           tobes={tobes} 
+          editingId={editingId}
           onToggleComplete={handleToggleComplete} 
           onDelete={handleDelete}
+          onEdit={handleEdit}
+          onSave={handleSave}
         />
       )}
     </main>

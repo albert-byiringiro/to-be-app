@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { nanoid } from "nanoid";
 
 // const initialValue = () => {
 //     const savedTobes = localStorage.getItem("tobes");
@@ -45,6 +44,6 @@ const todosSlice = createSlice({
     }
 })
 
-export const { addTodo,toggleComplete, deleteTodo } = todosSlice.actions;
+export const { addTodo,toggleComplete, deleteTodo, startEditing, saveTodo } = todosSlice.actions;
 
 export default todosSlice.reducer;
