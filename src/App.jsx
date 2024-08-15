@@ -3,20 +3,21 @@ import Tobe from './components/Tobe';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTobe, deleteTobe, toggleComplete } from './features/todoSlicer'; import "./features/todoSlicer";
+import { addTodo, deleteTodo, toggleComplete } from './features/todoSlicer'; import "./features/todoSlicer";
+import { nanoid } from 'nanoid';
 
 
 function App() {
 
   const [todo, setTodo] = useState("");
-
-  const tobes = useSelector((state) => state.tobes);
+  const tobes = useSelector((state) => state.todos.tobes);
+  const editingId = useSelector(state => state.todos.editingId);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Save tobes to localStorage whenever it changes
-    localStorage.setItem('tobes', JSON.stringify(tobes));
-  }, [tobes]);
+  // useEffect(() => {
+  //   // Save tobes to localStorage whenever it changes
+  //   localStorage.setItem('tobes', JSON.stringify(tobes));
+  // }, [tobes]);
 
   const handleInput = (e) => {
     setTodo(e.target.value)
@@ -27,7 +28,13 @@ function App() {
     
     if (todo.trim() === '') return; // Prevent adding empty todos
 
-    dispatch(addTobe(todo))
+    const newTodo = {
+      id: nanoid(),
+      tobe: todo,
+      isComplete: false,
+    }
+
+      dispatch(addTodo(newTodo))
 
     setTodo(''); // Clear the input field after submission
   };
@@ -37,9 +44,8 @@ function App() {
   }
 
   const handleDelete = (id) => {
-    dispatch(deleteTobe(id));
+    dispatch(deleteTodo(id));
   }
-
 
   return (
     <main className="container mx-auto p-4">
@@ -63,7 +69,11 @@ function App() {
       {tobes.length === 0 ? (
         <p className="text-center text-gray-600">No tasks available</p>
       ) : (
-        <Tobe tobes={tobes} onToggleComplete={handleToggleComplete} onDelete={handleDelete}/>
+        <Tobe 
+          tobes={tobes} 
+          onToggleComplete={handleToggleComplete} 
+          onDelete={handleDelete}
+        />
       )}
     </main>
   );

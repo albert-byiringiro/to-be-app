@@ -1,45 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { nanoid } from "nanoid";
 
-const initialValue = () => {
-    const savedTobes = localStorage.getItem("tobes");
-    return savedTobes ? JSON.parse(savedTobes) : [];
+// const initialValue = () => {
+//     const savedTobes = localStorage.getItem("tobes");
+//     return savedTobes ? JSON.parse(savedTobes) : [];
+// }
+
+const initialState = {
+    tobes: [],
+    editingId: null,
 }
 
-const tobesSlice = createSlice({
-    name: "tobes",
-    initialState: initialValue(),
+const todosSlice = createSlice({
+    name: "todos",
+    initialState,
     reducers: {
-        addTobe: (state, action) => {
-            const newTobe = {
-                id: nanoid(),
-                tobe: action.payload,
-                isComplete: false,
-            };
-            state.push(newTobe);
+        addTodo: (state, action) => {
+            state.tobes.push(action.payload);
         },
         toggleComplete: (state, action) => {
-            const tobe = state.find(tobe => tobe.id === action.payload);
-            if (tobe) {
-                tobe.isComplete = !tobe.isComplete;
+            const todo = state.find(tobe => tobe.id === action.payload);
+            if (todo) {
+                todo.isComplete = !todo.isComplete;
             }
         },
         
-        deleteTobe: (state, action) => {
-            return state.filter(tobe => tobe.id !== action.payload)
+        deleteTodo: (state, action) => {
+            state.tobes = state.tobes.filter(tobe => tobe.id !== action.payload)
         },
-
-        updateTobe: (state, action) => {
-            const { id, tobe } = action.payload;
-            const existingTobe = state.find(item => item.id === id);
-            if (existingTobe) {
-                existingTobe.tobe = tobe;
-            }
-        }
         
     }
 })
 
-export const { addTobe,toggleComplete, deleteTobe, updateTobe } = tobesSlice.actions;
+export const { addTodo,toggleComplete, deleteTodo } = todosSlice.actions;
 
-export default tobesSlice.reducer;
+export default todosSlice.reducer;
